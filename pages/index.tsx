@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Feed from 'components/Feed/index';
 import { fetchFeed } from 'api/feed';
 import Story from 'interfaces/story';
+import useFeed from 'hooks/feed';
 
-export default function Home({ feed: initialFeed }: { feed: Array<Story> }) {
-  const [feed, setFeed] = useState(initialFeed);
-  const [currentPage, setCurrentPage] = useState(1);
+export default function Home({ initialFeed }: { initialFeed: Story[] }) {
+  const [feed, loadMore, loading] = useFeed(initialFeed);
 
   return (
     <div className="max-w-xl mx-auto py-4">
@@ -20,6 +20,14 @@ export default function Home({ feed: initialFeed }: { feed: Array<Story> }) {
       </header>
       <main>
         <Feed feed={feed} />
+        <button
+          className={`${
+            loading ? 'bg-gray-500' : 'bg-red-700'
+          } w-full p-3 text-white`}
+          onClick={loadMore}
+        >
+          {loading ? 'Loading....' : 'Load More'}
+        </button>
       </main>
       <footer className="flex justify-center items-center w-full py-5 mt-10 border-t border-[#eaeaea]">
         &copy; Barstool Sports
@@ -29,8 +37,8 @@ export default function Home({ feed: initialFeed }: { feed: Array<Story> }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const feed = await fetchFeed();
+  const initialFeed = await fetchFeed();
   return {
-    props: { feed }
+    props: { initialFeed }
   };
 };

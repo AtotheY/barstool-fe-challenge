@@ -18,5 +18,5 @@ export default interface Story {
   url: string;
   thumbnail: Thumbnail;
   author: Author;
-  [key: string]: any;
+  [key: string]: any; // adding to avoid adding types for every single property returned via api for this challenge
 }
