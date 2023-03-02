@@ -1,8 +1,6 @@
 interface Author {
   name: string;
   avatar: string;
-  author_url: string;
-  id: number;
   [key: string]: any;
 }
 
@@ -18,5 +16,6 @@ export default interface Story {
   url: string;
   thumbnail: Thumbnail;
   author: Author;
+  date: string;
   [key: string]: any; // adding to avoid adding types for every single property returned via api for this challenge
 }
