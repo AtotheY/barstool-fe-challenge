@@ -10,6 +10,9 @@ import useFeed from 'hooks/feed';
 export default function Home({ initialFeed }: { initialFeed: Story[] }) {
   const [feed, loadMore, loading] = useFeed(initialFeed);
 
+  const loadingButtonColor = loading ? 'bg-gray-500' : 'bg-red-700';
+  const loadingText = loading ? 'Loading....' : 'Load More';
+
   return (
     <div className="max-w-xl mx-auto py-4">
       <Head>
@@ -21,12 +24,11 @@ export default function Home({ initialFeed }: { initialFeed: Story[] }) {
       <main>
         <Feed feed={feed} />
         <button
-          className={`${
-            loading ? 'bg-gray-500' : 'bg-red-700'
-          } w-full p-3 text-white`}
+          className={`${loadingButtonColor} w-full p-3 text-white`}
           onClick={loadMore}
+          disabled={loading}
         >
-          {loading ? 'Loading....' : 'Load More'}
+          {loadingText}
         </button>
       </main>
       <footer className="flex justify-center items-center w-full py-5 mt-10 border-t border-[#eaeaea]">

@@ -5,7 +5,7 @@ import { useInterval } from 'hooks/interval';
 
 export default function useFeed(
   initialFeed: Story[]
-): [Story[], () => Promise<void>, Boolean] {
+): [Story[], () => Promise<void>, boolean] {
   const [feed, setFeed] = useState(initialFeed);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
