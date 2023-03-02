@@ -1,24 +1,36 @@
+import { useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import Feed from '@/components/Feed/index';
+import Feed from 'components/Feed/index';
+import { fetchFeed } from 'api/feed';
+import Story from 'interfaces/story';
 
-export default function Home() {
+export default function Home({ feed: initialFeed }: { feed: Array<Story> }) {
+  const [feed, setFeed] = useState(initialFeed);
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <div className="max-w-xl mx-auto py-4">
       <Head>
         <title>Barstool Sports</title>
       </Head>
-
       <header className="px-4 flex justify-center">
         <Image src="/logo.png" alt="Barstool Sports" width="200" height="64" />
       </header>
       <main>
-        <Feed />
+        <Feed feed={feed} />
       </main>
-
       <footer className="flex justify-center items-center w-full py-5 mt-10 border-t border-[#eaeaea]">
         &copy; Barstool Sports
       </footer>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const feed = await fetchFeed();
+  return {
+    props: { feed }
+  };
+};
